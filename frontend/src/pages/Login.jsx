@@ -14,17 +14,27 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const onSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        try {
-            await login(form.email, form.password);
-            toast.success('Welcome back!');
-            navigate('/');
-        } catch (err) {
-            toast.error(err.response?.data?.message || 'Login failed');
-        } finally {
-            setLoading(false);
-        }
+      e.preventDefault();
+      setLoading(true);
+
+      try {
+        console.log("Submitting login", form.email);
+
+        await login(form.email, form.password);
+
+        toast.success("Welcome back!");
+        navigate("/");
+      } catch (err) {
+        console.log("LOGIN ERROR:", err);
+        console.log("STATUS:", err?.response?.status);
+        console.log("DATA:", err?.response?.data);
+
+        toast.error(
+          err?.response?.data?.message || err.message || "Login failed",
+        );
+      } finally {
+        setLoading(false);
+      }
     };
 
     return (
